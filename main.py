@@ -33,6 +33,10 @@ def get_pages(S: requests.Session, cmcontinue: str = ""):
     for pagedata in DATA["query"]["categorymembers"]:
         pages.append(pagedata["title"])
 
+    cmcontinue = False
+    if "continue" in DATA and "cmcontinue" in DATA["continue"]:
+        cmcontinue = DATA["continue"]["cmcontinue"]
+
     return pages, cmcontinue
 
 
@@ -83,6 +87,9 @@ def main():
     cmcontinue = ""
 
     while True:
+        print(cmcontinue)
+        if cmcontinue == False:
+            return 0
         pages, cmcontinue = get_pages(S, cmcontinue)
         batch_queue = []
 
